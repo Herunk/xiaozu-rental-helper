@@ -1,6 +1,3 @@
-[README.md](https://github.com/user-attachments/files/28155974/README.md)
-<div align="center">
-
 # 🏠 小租同学
 
 > **专为大学生打造的第一次租房小助手**
