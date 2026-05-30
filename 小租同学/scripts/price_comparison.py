@@ -1,13 +1,53 @@
 #!/usr/bin/env python3
 """
-租房价格对比计算脚本
+租房价格对比计算脚本 v5.0
 
-本脚本为纯计算工具，不包含任何内置租房价格数据。
-实际使用时，必须通过 WebSearch/WebFetch 实时获取用户询问城市的租房价格数据，
+=== 定位 ===
+纯计算工具，不包含任何内置租房价格数据。
+实际使用时，必须通过 WebSearch/WebFetch 实时获取用户城市的租房价格数据，
 再将数据作为参数传入本脚本进行对比计算。
 
-用法：
-    python price_comparison.py --city 深圳 --district 南山区 --house-type 一室一厅 --rent 3500 --avg-price 3800 --min-price 3200 --max-price 4500
+=== 参数说明 ===
+  --city CITY           城市（如：深圳、成都、武汉），必填
+  --district DISTRICT   区域（如：南山区、高新区），必填
+  --house-type TYPE     户型（如：一室一厅、两居室、三室两厅），必填
+  --rent RENT           用户租金（元/月），必填
+  --avg-price PRICE     实时获取的参考均价（元/月），必填
+  --min-price PRICE     实时获取的价格下限（元/月），可选
+  --max-price PRICE     实时获取的价格上限（元/月），可选
+  --json                以 JSON 格式输出结果
+
+=== 调用示例 ===
+  python price_comparison.py --city 深圳 --district 南山区 --house-type 一室一厅 \
+      --rent 3500 --avg-price 3800 --min-price 3200 --max-price 4500 --json
+
+=== 输出示例（JSON） ===
+  {
+    "status": "success",
+    "city": "深圳",
+    "district": "南山区",
+    "house_type": "一居室",
+    "avg_price": 3800,
+    "min_price": 3200,
+    "max_price": 4500,
+    "price_range": "3200-4500元/月",
+    "user_rent": 3500,
+    "diff_percent": -7.9,
+    "price_level": "合理",
+    "conclusion": "该房源价格合理，与深圳南山区一居室均价（3800元/月）基本一致。",
+    "recommendation": "价格合理，建议结合房源综合条件做最终决定。"
+  }
+
+=== 判断逻辑 ===
+  - 租金 < 均价 × 0.9  → 偏低，警惕虚假房源/二房东
+  - 均价 × 0.9 ~ 1.1   → 合理
+  - 租金 > 均价 × 1.1  → 偏高，建议砍价
+
+=== 错误码 ===
+  0 - 成功
+  1 - 参数缺失或无效
+  2 - 均价数据缺失（avg-price 必填）
+  3 - 租金数据缺失或无效
 """
 
 import json
