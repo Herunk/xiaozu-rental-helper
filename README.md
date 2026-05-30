@@ -146,7 +146,7 @@ python generate_report.py --json "@report_data.json" --output "report.pdf"
 
 ## 📝 更新日志
 
-### v5.0 (2026-05-25) — 大赛优化
+### v5.0 
 
 | 变更 | 说明 |
 |:--|:--|
